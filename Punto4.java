@@ -1,16 +1,10 @@
 package MFrequentAarray;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Punto4 {
 
     private static ArrayList<String> datos = new ArrayList<>();
 
-    private static ArrayList<int[]> arreglos = new ArrayList<>();
+    private static ArrayList<ArrayList<Integer>> arreglo = new ArrayList<>();
 
     public static void cargarDatos() throws IOException {
 
@@ -21,9 +15,9 @@ public class Punto4 {
         String lin;
         while ((lin = br.readLine()) != null && !"0".equals(lin)) {
             Scanner scanner = new Scanner(lin);
-            String dato = "";
+
             int j = 0;
-            while (scanner.hasNextInt()) {
+
                 if (j == 0) {
                     dato = dato + scanner.next();
                 } else {
@@ -37,6 +31,32 @@ public class Punto4 {
         }
 
     }
+    
+    
+    public static void cargarArreglos(){
+    	int i = 0;
+		
+		while(i<datos.size()){
+			
+			String linea = datos.get(i);
+			int n = Integer.parseInt(linea);
+			//System.out.println(n);
+			ArrayList<Integer> subArray = new ArrayList<>();
+						
+			String[] numeros = datos.get(i+1).split(",");
+			String[] numeros2 =datos.get(i+2).split(",");
+			
+			for(int j = 0; j<n;j++){
+				subArray.add(Integer.parseInt(numeros[j]));
+				subArray.add(Integer.parseInt(numeros2[j]));
+				
+			}			
+			arreglo.add(subArray);
+			i=i+3;		
+			
+		}			
+			
+    }
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -47,13 +67,12 @@ public class Punto4 {
         } catch (Exception e) {
             // TODO: handle exception
         }
-
-        for (int i = 0; i < datos.size(); i++) {
-            System.out.println(datos.get(i));
+        cargarArreglos();
+        System.out.println(arreglo.size());
+        for (int i = 0; i < arreglo.size(); i++) {
+            System.out.println(arreglo.get(i));
         }
-        System.out.println("holaaaa");
-        System.out.println(datos.size());
-        System.out.println(datos.get(0));
+       
     }
 
 }
