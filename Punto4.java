@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -54,6 +55,10 @@ public class Punto4 {
 
             for (int j = 0; j < n; j++) {
                 subArray.add(Integer.parseInt(numeros[j]));
+
+            }
+            for (int j = 0; j < n; j++) {
+
                 subArray.add(Integer.parseInt(numeros2[j]));
 
             }
@@ -66,35 +71,68 @@ public class Punto4 {
 
     public static String masFrecuente(ArrayList<Integer> arreglo) {
 
-        Map<Integer, Integer> hash = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> hashPrimerArray = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> hashSegundoArray = new HashMap<Integer, Integer>();
 
-        for (int i = 0; i < arreglo.size(); i++) {
+        int n = arreglo.size();
+        System.out.println(arreglo);
+        for (int i = 0; i < n / 2; i++) {
             int k = arreglo.get(i);
-            if (hash.containsKey(k)) {
-                int f = hash.get(k);
+            if (hashPrimerArray.containsKey(k)) {
+                int f = hashPrimerArray.get(k);
                 f++;
-                hash.put(k, f);
+                hashPrimerArray.put(k, f);
+
             } else {
-                hash.put(k, 1);
+                hashPrimerArray.put(k, 1);
+
             }
         }
 
-        int max = 0;
-        String masRepetido = "";
+        for (int i = n / 2; i < arreglo.size(); i++) {
 
-        for (Entry<Integer, Integer> val : hash.entrySet()) {
-            if (max < val.getValue()) {
-                masRepetido = Integer.toString(val.getKey());
-                max = val.getValue();
-            } else if (max == val.getValue()) {
-                masRepetido = "nohay";
+            int k = arreglo.get(i);
+            if (hashSegundoArray.containsKey(k)) {
+                int f = hashSegundoArray.get(k);
+                f++;
+                hashSegundoArray.put(k, f);
+
             } else {
+                hashSegundoArray.put(k, 1);
 
+            }
+        }
+
+        int maxFrecuencia = 0;
+        String masRepetido = "nohay";
+
+        for (Entry<Integer, Integer> val : hashPrimerArray.entrySet()) {
+            int key = val.getKey();
+
+            if (hashSegundoArray.containsKey(key)) {
+
+                int sumaFrecuencia = hashPrimerArray.get(key) + hashSegundoArray.get(key);
+
+                if (sumaFrecuencia > maxFrecuencia) {
+                    int numero = val.getKey();
+                    masRepetido = Integer.toString(numero);
+                    maxFrecuencia = sumaFrecuencia;
+                }
             }
 
         }
 
         return masRepetido;
+
+    }
+
+    public static boolean estanAmbos(Map<Integer, Integer> hash, Map<Integer, Integer> hash2, int n) {
+
+        boolean res = false;
+        if (hash.containsKey(n) && hash2.containsKey(n)) {
+            res = true;
+        }
+        return res;
 
     }
 
